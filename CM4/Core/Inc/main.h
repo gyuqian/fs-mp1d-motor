@@ -53,18 +53,21 @@ extern long int Motor_Left;
 extern long int Motor_Right;		//电机PWM变量
 
 extern long int Target_Left;
-extern long int Target_Right;		//电机目标�???
+extern long int Target_Right;		//电机目标�????
 
 extern float Velocity;
 extern float Angle;
-extern float Servo;				//速度和角度变�???
+extern float Servo;				//速度和角度变�????
 
 extern float Velocity_KP;
 extern float Velocity_KI;	//速度控制PID参数
 
-extern int Voltage,Voltage_Count,Voltage_All;
+extern int Voltage;
+extern int Voltage_Count;
+extern int Voltage_All;
 
-extern int Encoder_Left,Encoder_Right;
+extern int Encoder_Left;
+extern int Encoder_Right;
 
 /* USER CODE END EM */
 

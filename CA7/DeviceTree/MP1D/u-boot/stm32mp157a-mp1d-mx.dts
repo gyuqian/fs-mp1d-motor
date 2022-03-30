@@ -85,9 +85,33 @@
 		};
 	};
 
-	m4_tim1_pwm_pins_mx: m4_tim1_pwm_mx-0 {
+	m4_tim1_pins_mx: m4_tim1_mx-0 {
 		pins {
 			pinmux = <STM32_PINMUX('E', 11, RSVD)>; /* TIM1_CH2 */
+		};
+	};
+
+	m4_tim13_pwm_pins_mx: m4_tim13_pwm_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('F', 8, RSVD)>; /* TIM13_CH1 */
+		};
+	};
+
+	m4_tim14_pwm_pins_mx: m4_tim14_pwm_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('F', 9, RSVD)>; /* TIM14_CH1 */
+		};
+	};
+
+	m4_tim16_pwm_pins_mx: m4_tim16_pwm_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('F', 6, RSVD)>; /* TIM16_CH1 */
+		};
+	};
+
+	m4_tim17_pwm_pins_mx: m4_tim17_pwm_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('F', 7, RSVD)>; /* TIM17_CH1 */
 		};
 	};
 
@@ -198,11 +222,47 @@
 
 &m4_timers1{
 	pinctrl-names = "default";
-	pinctrl-0 = <&m4_tim1_pwm_pins_mx>;
+	pinctrl-0 = <&m4_tim1_pins_mx>;
 	status = "okay";
 
 	/* USER CODE BEGIN m4_timers1 */
 	/* USER CODE END m4_timers1 */
+};
+
+&m4_timers13{
+	pinctrl-names = "default";
+	pinctrl-0 = <&m4_tim13_pwm_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN m4_timers13 */
+	/* USER CODE END m4_timers13 */
+};
+
+&m4_timers14{
+	pinctrl-names = "default";
+	pinctrl-0 = <&m4_tim14_pwm_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN m4_timers14 */
+	/* USER CODE END m4_timers14 */
+};
+
+&m4_timers16{
+	pinctrl-names = "default";
+	pinctrl-0 = <&m4_tim16_pwm_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN m4_timers16 */
+	/* USER CODE END m4_timers16 */
+};
+
+&m4_timers17{
+	pinctrl-names = "default";
+	pinctrl-0 = <&m4_tim17_pwm_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN m4_timers17 */
+	/* USER CODE END m4_timers17 */
 };
 
 &m4_uart5{

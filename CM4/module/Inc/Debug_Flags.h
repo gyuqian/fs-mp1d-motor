@@ -8,12 +8,23 @@
 #ifndef INC_DEBUG_FLAGS_H_
 #define INC_DEBUG_FLAGS_H_
 
-#include "GPIO_bsp.h"
+#define BOOL_TRUE 1
+#define BOOL_FALSE 0
 
-const uint8_t True=1;
-const uint8_t False=0;
+///
+///DEBUG
+///
+#define TIM1_CALLBACK_DEBUG			BOOL_FALSE
 
-#define PWM_DEBUG_MODE				1
-#define PID_CONTROLER_DEBUG_MODE	0
+#define PWM_DEBUG_MODE				BOOL_FALSE
+#define PID_CONTROLER_DEBUG_MODE	BOOL_FALSE
+
+#define __STM32F405_ 				BOOL_FALSE
+#define __STM32MP157a_ 				BOOL_TRUE
+
+#define MOTOR_PID_CONTROLOR_TEST	BOOL_TRUE
+
+//#undef BOOL_TRUE
+//#undef BOOL_FALSE
 
 #endif /* INC_DEBUG_FLAGS_H_ */

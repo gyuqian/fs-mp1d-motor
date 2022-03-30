@@ -12,6 +12,31 @@ int j,sum;
 #define T 0.156f
 #define L 0.1445f
 #define K 622.8f
+
+/****************************************************************************/
+uint8_t delay_50;
+uint8_t delay_flag;
+
+long int Motor_Left;
+long int Motor_Right;		//电机PWM变量
+
+long int Target_Left=0;
+long int Target_Right=0;		//电机目标
+
+float Velocity;
+float Angle;
+float Servo;
+
+float Velocity_KP=10;
+float Velocity_KI=10;	//速度控制PID参数
+
+int Voltage;
+int Voltage_Count;
+int Voltage_All;
+
+int Encoder_Left;
+int Encoder_Right;
+/*************************************************************************/
 /**************************************************************************
 函数功能：小车运动数学模型
 入口参数：速度和转角

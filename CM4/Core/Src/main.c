@@ -26,30 +26,13 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "tim.h"
+#include "MotorPIControllerTest.h"
+
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-uint8_t delay_50;
-uint8_t delay_flag;
-
-long int Motor_Left;
-long int Motor_Right;		//电机PWM变量
-
-long int Target_Left=5;
-long int Target_Right=5;		//电机目标
-
-float Velocity;
-float Angle;
-float Servo;				//速度和角度变�?????????
-
-float Velocity_KP=10;
-float Velocity_KI=10;	//速度控制PID参数
-
-int Voltage,Voltage_Count,Voltage_All;
-
-int Encoder_Left,Encoder_Right;
 
 /* USER CODE END PTD */
 
@@ -65,9 +48,8 @@ int Encoder_Left,Encoder_Right;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-extern LPTIM_HandleTypeDef hlptim2;
-extern UART_HandleTypeDef huart4;
-uint32_t temp;
+//extern LPTIM_HandleTypeDef hlptim2;
+//extern UART_HandleTypeDef huart4;
 
 /* USER CODE END PV */
 
@@ -120,13 +102,15 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_LPTIM2_Init();
-  MX_TIM1_Init();
   MX_UART5_Init();
   MX_LPTIM1_Init();
+  MX_TIM16_Init();
+  MX_TIM17_Init();
+  MX_TIM13_Init();
+  MX_TIM14_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_LPTIM_Encoder_Start(&hlptim2,0xFFFF);
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  //HAL_UART_
+  MOTOR_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -136,6 +120,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+#if 0
+	  uint32_t temp;
 	  HAL_Delay(100);
 	  temp=HAL_LPTIM_ReadCounter(&hlptim2);
 	  HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_12);
@@ -146,6 +132,22 @@ int main(void)
 	  HAL_UART_Transmit(&huart5,str1,sizeof(str1),1000);
 
 	  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,4200);
+#endif
+
+#if PID_CONTROLER_DEBUG_MODE
+
+		HAL_Delay(10);
+
+		Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();  ////为了保证M法测速的时间基准，首先读取编码器数据
+		__MOTOR_CLEAR_RIGHT_ENCODER();
+		Encoder_Left=__MOTOR_READ_LEFT_ENCODER();    //
+		__MOTOR_CLEAR_LEFT_ENCODER();
+
+		Motor_Left=Incremental_PI_Left(Encoder_Left,Target_Left);  //===速度闭环控制计算左电机最终PWM
+		Motor_Right=Incremental_PI_Right(Encoder_Right,Target_Right);  //===速度闭环控制计算右电机最终PWM
+		Xianfu_Pwm(8200);                          //===PWM限幅
+		Set_Pwm(Motor_Left,Motor_Right);
+#endif
   }
   /* USER CODE END 3 */
 }

@@ -8,9 +8,7 @@
 #ifndef MODULE_INC_GPIO_BSP_H_
 #define MODULE_INC_GPIO_BSP_H_
 
-#define __STM32F405_ 0
-#define __STM32MP157a_ 1
-
+#include "Debug_flags.h"
 #include "main.h"
 #include "ipcc.h"
 #include "lptim.h"
@@ -66,30 +64,15 @@ enum
 #define __MOTOR_CLEAR_LEFT_ENCODER() __HAL_TIM_SET_COUNTER(MOTOR_LEFT_ENCODER_TIM,0)
 #define __MOTOR_READ_RIGHT_ENCODER() __HAL_TIM_GET_COUNTER(MOTOR_RIGHT_ENCODER_TIM)
 #define __MOTOR_CLEAR_RIGHT_ENCODER() __HAL_TIM_SET_COUNTER(MOTOR_RIGHT_ENCODER_TIM,0)
-///
-///GPIO重定向
-///
-
-#define __PASET(n)		HAL_GPIO_WritePin(GPIOA, n, GPIO_PIN_SET)
-#define __PARESET(n)	HAL_GPIO_WritePin(GPIOA, n, GPIO_PIN_RESET)
-
-#define __PBSET(n)		HAL_GPIO_WritePin(GPIOB, n, GPIO_PIN_SET)
-#define __PBRESET(n)	HAL_GPIO_WritePin(GPIOB, n, GPIO_PIN_RESET)
-#define __PCSET(n)		HAL_GPIO_WritePin(GPIOC, n, GPIO_PIN_SET)
-#define __PCRESET(n)	HAL_GPIO_WritePin(GPIOC, n, GPIO_PIN_RESET)
-
-#define __GET_PA_STATE(n) HAL_GPIO_ReadPin(GPIOA,n)
-#define __GET_PB_STATE(n) HAL_GPIO_ReadPin(GPIOB,n)
-#define __GET_PC_STATE(n) HAL_GPIO_ReadPin(GPIOC,n)
 
 ///
 ///PWM
 ///
 
-#define __MOTOR_LEFT_PWMA1(n)		__HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,n)
-#define __MOTOR_LEFT_PWMA2(n)		__HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_1,n)
-#define __MOTOR_RIGHT_PWMB1(n)		__HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_4,n)
-#define __MOTOR_RIGHT_PWMB2(n)		__HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,n)
+#define __MOTOR_LEFT_PWMA1(n)		__HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_3,n) //PC8
+#define __MOTOR_LEFT_PWMA2(n)		__HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_1,n) //PC6
+#define __MOTOR_RIGHT_PWMB1(n)		__HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_4,n) //PC9
+#define __MOTOR_RIGHT_PWMB2(n)		__HAL_TIM_SetCompare(&htim8,TIM_CHANNEL_2,n) //PC7
 //#define SET_PWMA(n) __HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_3,n);
 //#define SET_PWMB(n) __HAL_TIM_SetCompare(&htim3,TIM_CHANNEL_4,n);
 
@@ -109,16 +92,17 @@ enum
 #define MOTOR_LEFT_ENCODER_TIM &hlptim1
 #define MOTOR_RIGHT_ENCODER_TIM &hlptim2
 
-#define __MOTOR_READ_LEFT_ENCODER() (-HAL_LPTIM_ReadCounter(MOTOR_LEFT_ENCODER_TIM))
-#define __MOTOR_CLEAR_LEFT_ENCODER() __HAL_TIM_SET_COUNTER(MOTOR_LEFT_ENCODER_TIM,0)
-#define __MOTOR_READ_RIGHT_ENCODER() HAL_LPTIM_ReadCounter(MOTOR_RIGHT_ENCODER_TIM)
-#define __MOTOR_CLEAR_RIGHT_ENCODER() __HAL_TIM_SET_COUNTER(MOTOR_RIGHT_ENCODER_TIM,0)
+#define __MOTOR_READ_LEFT_ENCODER()		(-HAL_LPTIM_ReadCounter(MOTOR_LEFT_ENCODER_TIM))
+#define __MOTOR_CLEAR_LEFT_ENCODER()	__HAL_TIM_SET_COUNTER(MOTOR_LEFT_ENCODER_TIM,0)
+#define __MOTOR_READ_RIGHT_ENCODER()	HAL_LPTIM_ReadCounter(MOTOR_RIGHT_ENCODER_TIM)
+#define __MOTOR_CLEAR_RIGHT_ENCODER()	__HAL_TIM_SET_COUNTER(MOTOR_RIGHT_ENCODER_TIM,0)
 
-#define __MOTOR_LEFT_PWMA1(n)		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,n)
-#define __MOTOR_LEFT_PWMA2(n)		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,n)
-#define __MOTOR_RIGHT_PWMB1(n)		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_4,n)
-#define __MOTOR_RIGHT_PWMB2(n)		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,n)
+#define __MOTOR_LEFT_PWMA1(n)		__HAL_TIM_SET_COMPARE(&htim13,TIM_CHANNEL_1,n) //PF8
+#define __MOTOR_LEFT_PWMA2(n)		__HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,n) //PF9
+#define __MOTOR_RIGHT_PWMB1(n)		__HAL_TIM_SET_COMPARE(&htim16,TIM_CHANNEL_1,n) //PF6
+#define __MOTOR_RIGHT_PWMB2(n)		__HAL_TIM_SET_COMPARE(&htim17,TIM_CHANNEL_1,n) //PF7
 
+#endif
 ///
 ///GPIO重定向
 ///
@@ -134,14 +118,5 @@ enum
 #define __GET_PA_STATE(n) HAL_GPIO_ReadPin(GPIOA,n)
 #define __GET_PB_STATE(n) HAL_GPIO_ReadPin(GPIOB,n)
 #define __GET_PC_STATE(n) HAL_GPIO_ReadPin(GPIOC,n)
-
-#endif
-
-///
-///DEBUG
-///
-#define TIM1_CALLBACK_DEBUG 0
-
-
 
 #endif /* MODULE_INC_GPIO_BSP_H_ */
