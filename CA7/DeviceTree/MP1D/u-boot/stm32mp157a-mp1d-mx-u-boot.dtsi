@@ -67,7 +67,7 @@
 	st,clksrc = <
 		CLK_MPU_PLL1P
 		CLK_AXI_HSI
-		CLK_MCU_HSI
+		CLK_MCU_PLL3P
 		CLK_PLL12_HSI
 		CLK_PLL3_HSI
 		CLK_PLL4_HSI
@@ -79,9 +79,9 @@
 		1 		/*MPU*/
 		0 		/*AXI*/
 		0 		/*MCU*/
-		0 		/*APB1*/
-		0 		/*APB2*/
-		0 		/*APB3*/
+		1 		/*APB1*/
+		1 		/*APB2*/
+		1 		/*APB3*/
 		0 		/*APB4*/
 		0 		/*APB5*/
 		0 		/*RTC*/
@@ -114,10 +114,17 @@
 		CLK_SAI2_DISABLED
 		CLK_SAI3_DISABLED
 		CLK_SAI4_DISABLED
-		CLK_LPTIM1_DISABLED
+		CLK_LPTIM1_PCLK1
 		CLK_LPTIM23_PCLK3
 		CLK_LPTIM45_DISABLED
 	>;
+	pll3:st,pll@2 {
+		compatible = "st,stm32mp1-pll";
+		reg = <2>;
+		cfg = < 3 25 1 1 1 PQR(1,0,0) >;
+		frac = < 0x400 >;
+		u-boot,dm-pre-reloc;
+	};
 
 	/* USER CODE BEGIN rcc */
 	/* USER CODE END rcc */

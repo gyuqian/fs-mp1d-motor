@@ -71,6 +71,13 @@
 &pinctrl {
 	u-boot,dm-pre-reloc;
 
+	m4_lptim1_counter_pins_mx: m4_lptim1_counter_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('G', 12, RSVD)>, /* LPTIM1_IN1 */
+					 <STM32_PINMUX('H', 2, RSVD)>; /* LPTIM1_IN2 */
+		};
+	};
+
 	m4_lptim2_counter_pins_mx: m4_lptim2_counter_mx-0 {
 		pins {
 			pinmux = <STM32_PINMUX('B', 10, RSVD)>, /* LPTIM2_IN1 */
@@ -84,23 +91,10 @@
 		};
 	};
 
-	uart5_pins_mx: uart5_mx-0 {
-		pins1 {
-			pinmux = <STM32_PINMUX('B', 13, AF14)>; /* UART5_TX */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <0>;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('B', 5, AF12)>; /* UART5_RX */
-			bias-disable;
-		};
-	};
-
-	uart5_sleep_pins_mx: uart5_sleep_mx-0 {
+	m4_uart5_pins_mx: m4_uart5_mx-0 {
 		pins {
-			pinmux = <STM32_PINMUX('B', 5, ANALOG)>, /* UART5_RX */
-					 <STM32_PINMUX('B', 13, ANALOG)>; /* UART5_TX */
+			pinmux = <STM32_PINMUX('B', 5, RSVD)>, /* UART5_RX */
+					 <STM32_PINMUX('B', 13, RSVD)>; /* UART5_TX */
 		};
 	};
 
@@ -184,6 +178,15 @@
 	/* USER CODE END m4_dma2 */
 };
 
+&m4_lptimer1{
+	pinctrl-names = "default";
+	pinctrl-0 = <&m4_lptim1_counter_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN m4_lptimer1 */
+	/* USER CODE END m4_lptimer1 */
+};
+
 &m4_lptimer2{
 	pinctrl-names = "default";
 	pinctrl-0 = <&m4_lptim2_counter_pins_mx>;
@@ -200,6 +203,15 @@
 
 	/* USER CODE BEGIN m4_timers1 */
 	/* USER CODE END m4_timers1 */
+};
+
+&m4_uart5{
+	pinctrl-names = "default";
+	pinctrl-0 = <&m4_uart5_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN m4_uart5 */
+	/* USER CODE END m4_uart5 */
 };
 
 &mdma1{
@@ -229,16 +241,6 @@
 
 	/* USER CODE BEGIN tamp */
 	/* USER CODE END tamp */
-};
-
-&uart5{
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&uart5_pins_mx>;
-	pinctrl-1 = <&uart5_sleep_pins_mx>;
-	status = "okay";
-
-	/* USER CODE BEGIN uart5 */
-	/* USER CODE END uart5 */
 };
 
 /* USER CODE BEGIN addons */

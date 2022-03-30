@@ -31,6 +31,25 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+uint8_t delay_50;
+uint8_t delay_flag;
+
+long int Motor_Left;
+long int Motor_Right;		//电机PWM变量
+
+long int Target_Left=5;
+long int Target_Right=5;		//电机目标
+
+float Velocity;
+float Angle;
+float Servo;				//速度和角度变�?????????
+
+float Velocity_KP=10;
+float Velocity_KI=10;	//速度控制PID参数
+
+int Voltage,Voltage_Count,Voltage_All;
+
+int Encoder_Left,Encoder_Right;
 
 /* USER CODE END PTD */
 
@@ -103,8 +122,9 @@ int main(void)
   MX_LPTIM2_Init();
   MX_TIM1_Init();
   MX_UART5_Init();
+  MX_LPTIM1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_LPTIM_Encoder_Start(&hlptim2,65536);
+  HAL_LPTIM_Encoder_Start(&hlptim2,0xFFFF);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
   //HAL_UART_
   /* USER CODE END 2 */
@@ -149,7 +169,16 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   RCC_OscInitStruct.PLL2.PLLState = RCC_PLL_NONE;
-  RCC_OscInitStruct.PLL3.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL3.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL3.PLLSource = RCC_PLL3SOURCE_HSI;
+  RCC_OscInitStruct.PLL3.PLLM = 4;
+  RCC_OscInitStruct.PLL3.PLLN = 26;
+  RCC_OscInitStruct.PLL3.PLLP = 2;
+  RCC_OscInitStruct.PLL3.PLLQ = 2;
+  RCC_OscInitStruct.PLL3.PLLR = 2;
+  RCC_OscInitStruct.PLL3.PLLRGE = RCC_PLL3IFRANGE_1;
+  RCC_OscInitStruct.PLL3.PLLFRACV = 1024;
+  RCC_OscInitStruct.PLL3.PLLMODE = RCC_PLL_FRACTIONAL;
   RCC_OscInitStruct.PLL4.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -163,13 +192,13 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK5;
   RCC_ClkInitStruct.AXISSInit.AXI_Clock = RCC_AXISSOURCE_HSI;
   RCC_ClkInitStruct.AXISSInit.AXI_Div = RCC_AXI_DIV1;
-  RCC_ClkInitStruct.MCUInit.MCU_Clock = RCC_MCUSSOURCE_HSI;
+  RCC_ClkInitStruct.MCUInit.MCU_Clock = RCC_MCUSSOURCE_PLL3;
   RCC_ClkInitStruct.MCUInit.MCU_Div = RCC_MCU_DIV1;
   RCC_ClkInitStruct.APB4_Div = RCC_APB4_DIV1;
   RCC_ClkInitStruct.APB5_Div = RCC_APB5_DIV1;
-  RCC_ClkInitStruct.APB1_Div = RCC_APB1_DIV1;
-  RCC_ClkInitStruct.APB2_Div = RCC_APB2_DIV1;
-  RCC_ClkInitStruct.APB3_Div = RCC_APB3_DIV1;
+  RCC_ClkInitStruct.APB1_Div = RCC_APB1_DIV2;
+  RCC_ClkInitStruct.APB2_Div = RCC_APB2_DIV2;
+  RCC_ClkInitStruct.APB3_Div = RCC_APB3_DIV2;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct) != HAL_OK)
   {

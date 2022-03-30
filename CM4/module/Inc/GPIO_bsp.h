@@ -8,8 +8,16 @@
 #ifndef MODULE_INC_GPIO_BSP_H_
 #define MODULE_INC_GPIO_BSP_H_
 
+#define __STM32F405_ 0
+#define __STM32MP157a_ 1
+
 #include "main.h"
+#include "ipcc.h"
+#include "lptim.h"
+#include "usart.h"
+#include "gpio.h"
 #include "tim.h"
+//#include "stm32mp1xx_hal_tim.h"
 //#include "MPU6050.h"
 
 #include "dmpKey.h"
@@ -19,6 +27,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+
+#if __STM32F405_
 
 typedef struct MotorPIDControl{
 	long int Motor_Left;
@@ -92,6 +102,40 @@ enum
 //#define RIGHT_MOTOR_GPIO_BIN1 GPIO_PIN_14
 //#define RIGHT_MOTOR_GPIO_BIN2 GPIO_PIN_15
 
+#endif
+
+#if __STM32MP157a_
+
+#define MOTOR_LEFT_ENCODER_TIM &hlptim1
+#define MOTOR_RIGHT_ENCODER_TIM &hlptim2
+
+#define __MOTOR_READ_LEFT_ENCODER() (-HAL_LPTIM_ReadCounter(MOTOR_LEFT_ENCODER_TIM))
+#define __MOTOR_CLEAR_LEFT_ENCODER() __HAL_TIM_SET_COUNTER(MOTOR_LEFT_ENCODER_TIM,0)
+#define __MOTOR_READ_RIGHT_ENCODER() HAL_LPTIM_ReadCounter(MOTOR_RIGHT_ENCODER_TIM)
+#define __MOTOR_CLEAR_RIGHT_ENCODER() __HAL_TIM_SET_COUNTER(MOTOR_RIGHT_ENCODER_TIM,0)
+
+#define __MOTOR_LEFT_PWMA1(n)		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,n)
+#define __MOTOR_LEFT_PWMA2(n)		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,n)
+#define __MOTOR_RIGHT_PWMB1(n)		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_4,n)
+#define __MOTOR_RIGHT_PWMB2(n)		__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,n)
+
+///
+///GPIO重定向
+///
+
+#define __PASET(n)		HAL_GPIO_WritePin(GPIOA, n, GPIO_PIN_SET)
+#define __PARESET(n)	HAL_GPIO_WritePin(GPIOA, n, GPIO_PIN_RESET)
+
+#define __PBSET(n)		HAL_GPIO_WritePin(GPIOB, n, GPIO_PIN_SET)
+#define __PBRESET(n)	HAL_GPIO_WritePin(GPIOB, n, GPIO_PIN_RESET)
+#define __PCSET(n)		HAL_GPIO_WritePin(GPIOC, n, GPIO_PIN_SET)
+#define __PCRESET(n)	HAL_GPIO_WritePin(GPIOC, n, GPIO_PIN_RESET)
+
+#define __GET_PA_STATE(n) HAL_GPIO_ReadPin(GPIOA,n)
+#define __GET_PB_STATE(n) HAL_GPIO_ReadPin(GPIOB,n)
+#define __GET_PC_STATE(n) HAL_GPIO_ReadPin(GPIOC,n)
+
+#endif
 
 ///
 ///DEBUG
