@@ -27,6 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "tim.h"
 #include "MotorPIControllerTest.h"
+#include "control.h"
 
 
 /* USER CODE END Includes */
@@ -71,7 +72,8 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	//int Encoder_Right_Last=0;
+	//int Encoder_Right_temp=0;
 
   /* USER CODE END 1 */
 
@@ -111,6 +113,16 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   MOTOR_Init();
+  HAL_Delay(1000);
+  //GO_BACK();
+  Target_Left=20;
+  Target_Right=20;
+  //Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();
+
+#if LPTIM_ENCODER_MOD_TEST
+		__HAL_TIM_SET_COUNTER(MOTOR_LEFT_ENCODER_TIM,100);
+		//__HAL_TIM_IS_TIM_COUNTING_DOWN(MOTOR_LEFT_ENCODER_TIM);
+#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -120,6 +132,19 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+#if LPTIM_ENCODER_MOD_TEST
+		//__HAL_TIM_SET_COUNTER(MOTOR_LEFT_ENCODER_TIM,100);
+		//__HAL_TIM_SET_COUNTER(MOTOR_LEFT_ENCODER_TIM,0);
+		//__HAL_TIM_IS_TIM_COUNTING_DOWN(MOTOR_LEFT_ENCODER_TIM);
+
+	  HAL_LPTIM_Encoder_Stop(&hlptim2);
+	  ((&hlptim2)->Instance->CNT = 0);
+	  HAL_LPTIM_Encoder_Start(&hlptim2, 0xFFFF);
+
+	  HAL_LPTIM_Encoder_Stop(&hlptim2);
+	  ((&hlptim2)->Instance->CNT = 100);
+	  HAL_LPTIM_Encoder_Start(&hlptim2, 0xFFFF);
+#endif
 #if 0
 	  uint32_t temp;
 	  HAL_Delay(100);
@@ -133,13 +158,25 @@ int main(void)
 
 	  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,4200);
 #endif
-
 #if PID_CONTROLER_DEBUG_MODE
 
 		HAL_Delay(10);
+		//Encoder_Right_Last=Encoder_Right;
 
 		Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();  ////为了保证M法测速的时间基准，首先读取编码器数据
+#if 0
+		if(Encoder_Right_Last>Encoder_Right)
+		{
+			Encoder_Right_temp=Encoder_Right+65536-Encoder_Right_Last;
+		}
+		else
+		{
+			Encoder_Right_temp=Encoder_Right-Encoder_Right_Last;
+		}
+#endif
 		__MOTOR_CLEAR_RIGHT_ENCODER();
+
+		//uint32_t temp=__MOTOR_READ_RIGHT_ENCODER();
 		Encoder_Left=__MOTOR_READ_LEFT_ENCODER();    //
 		__MOTOR_CLEAR_LEFT_ENCODER();
 
@@ -147,6 +184,10 @@ int main(void)
 		Motor_Right=Incremental_PI_Right(Encoder_Right,Target_Right);  //===速度闭环控制计算右电机最终PWM
 		Xianfu_Pwm(8200);                          //===PWM限幅
 		Set_Pwm(Motor_Left,Motor_Right);
+		//Set_Pwm(-8200, -8200);
+
+
+		HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_12);
 #endif
   }
   /* USER CODE END 3 */

@@ -31,25 +31,25 @@ void MOTOR_STOP()
 	Target_Left=0;
 	Target_Right=0;
 }
-void GO_AHEAD()
+void GO_AHEAD(long int velocity)
 {
-	Target_Left=5;
-	Target_Right=5;
+	Target_Left=Target;
+	Target_Right=Target;
 }
-void GO_BACK()
+void GO_BACK(long int velocity)
 {
-	Target_Left=-5;
-	Target_Right=-5;
+	Target_Left=-Target;
+	Target_Right=-Target;
 }
-void TURN_LEFT()
+void TURN_LEFT(float velocity,float angle)
 {
-	Target_Left=-5;
-	Target_Right=5;
+	Target_Left=(velocity-angle);
+	Target_Right=(velocity+angle);
 }
-void TURN_RIGHT()
+void TURN_RIGHT(float velocity,float angle)
 {
-	Target_Left=5;
-	Target_Right=-5;
+	Target_Left=(velocity+angle);
+	Target_Right=(velocity-angle);
 }
 
 void MOTOR_Init()
@@ -61,7 +61,7 @@ void MOTOR_Init()
 	HAL_TIM_PWM_Start(&htim16, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
 
-	HAL_TIM_Base_Start_IT(&htim1);
+	//HAL_TIM_Base_Start_IT(&htim1);
 }
 
 #endif
