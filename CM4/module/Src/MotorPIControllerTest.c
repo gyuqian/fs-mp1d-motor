@@ -33,23 +33,23 @@ void MOTOR_STOP()
 }
 void GO_AHEAD(long int velocity)
 {
-	Target_Left=Target;
-	Target_Right=Target;
+	Target_Left=velocity;
+	Target_Right=velocity;
 }
 void GO_BACK(long int velocity)
 {
-	Target_Left=-Target;
-	Target_Right=-Target;
+	Target_Left=-velocity;
+	Target_Right=-velocity;
 }
 void TURN_LEFT(float velocity,float angle)
 {
-	Target_Left=(velocity-angle);
-	Target_Right=(velocity+angle);
+	Target_Left=(long int)((velocity-angle));
+	Target_Right=(long int)((velocity+angle));
 }
 void TURN_RIGHT(float velocity,float angle)
 {
-	Target_Left=(velocity+angle);
-	Target_Right=(velocity-angle);
+	Target_Left=(long int)((velocity+angle));
+	Target_Right=(long int)((velocity-angle));
 }
 
 void MOTOR_Init()

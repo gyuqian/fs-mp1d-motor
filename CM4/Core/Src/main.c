@@ -26,9 +26,13 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "tim.h"
+
+#include "Debug_Flags.h"
+#include "BSP_Motor.h"
+#if PID_CONTROLER_DEBUG_MODE
 #include "MotorPIControllerTest.h"
 #include "control.h"
-
+#endif
 
 /* USER CODE END Includes */
 
@@ -112,11 +116,11 @@ int main(void)
   MX_TIM14_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  MOTOR_Init();
+  BSP_Motor_Init();
   HAL_Delay(1000);
   //GO_BACK();
-  Target_Left=20;
-  Target_Right=20;
+  //Target_Left=20;
+  //Target_Right=20;
   //Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();
 
 #if LPTIM_ENCODER_MOD_TEST

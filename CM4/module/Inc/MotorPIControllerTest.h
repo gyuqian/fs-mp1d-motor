@@ -14,10 +14,10 @@
 
 void MOTOR_Init();
 
-void GO_AHEAD();
-void GO_BACK();
-void TURN_LEFT();
-void TURN_RIGHT();
+void GO_AHEAD(long int);
+void GO_BACK(long int);
+void TURN_LEFT(float,float);
+void TURN_RIGHT(float,float);
 void STOP();
 
 #endif
