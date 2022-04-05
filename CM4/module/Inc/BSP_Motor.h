@@ -49,9 +49,10 @@ void BSP_Motor_TURN_RIGHT(float velocity,float angle);
 ///
 ///MOTOR PID
 ///
-void Xianfu_Pwm(int amplitude);
-int myabs(int a);
-int Incremental_PI_Left (int Encoder,int Target);
-int Incremental_PI_Right (int Encoder,int Target);
-void Set_Pwm(int motor_a,int motor_b);
+#define BSP_Motor_Xianfu_Pwm(_AMPLITUDE_)Xianfu_Pwm(_AMPLITUDE_)
+#define BSP_Motor_myabs(_A_) myabs(_A_)
+#define BSP_Motor_Incremental_PI_Left(_Encoder_,_Target_) Incremental_PI_Left(_Encoder_,_Target_)
+#define BSP_Motor_Incremental_PI_Right(_Encoder_,_Target_) Incremental_PI_Right(_Encoder_,_Target_)
+#define BSP_Motor_Set_Pwm(_motor_a_,_motor_b_) Set_Pwm(_motor_a_,_motor_b_)
+
 #endif /* INC_BSP_MOTOR_H_ */

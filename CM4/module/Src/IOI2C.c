@@ -17,7 +17,8 @@
 *******************************************************************************/
 void IIC_Init(void)
 {
-	/*GPIO_InitTypeDef GPIO_InitStructure;
+	/*
+	GPIO_InitTypeDef GPIO_InitStructure;
 
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);	//使能PB端口时钟
 
@@ -26,7 +27,8 @@ void IIC_Init(void)
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;			//推挽复用
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;		//速度100MHZ
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;			//上拉
-	GPIO_Init(GPIOB, &GPIO_InitStructure);					//根据设定参数初始化GPIOB*/
+	GPIO_Init(GPIOB, &GPIO_InitStructure);					//根据设定参数初始化GPIOB
+	*/
 
 	//GPIOB->BSRRH = GPIO_Pin_10;
 	//GPIOB->BSRRH = GPIO_Pin_11;
