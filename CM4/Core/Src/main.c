@@ -118,9 +118,10 @@ int main(void)
   /* USER CODE BEGIN 2 */
   BSP_Motor_Init();
   HAL_Delay(1000);
+  //BSP_Motor_GO_AHEAD(1);
   //GO_BACK();
-  //Target_Left=20;
-  //Target_Right=20;
+  Target_Left=5;
+  Target_Right=5;
   //Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();
 
 #if LPTIM_ENCODER_MOD_TEST
@@ -188,6 +189,9 @@ int main(void)
 		Motor_Right=Incremental_PI_Right(Encoder_Right,Target_Right);  //===速度闭环控制计算右电机最终PWM
 		Xianfu_Pwm(8200);                          //===PWM限幅
 		Set_Pwm(Motor_Left,Motor_Right);
+
+		//BSP_Motor_GetSenseOfRotationLeft();
+		//BSP_Motor_GetSenseOfRotationRight();
 		//Set_Pwm(-8200, -8200);
 
 

@@ -34,8 +34,8 @@ void BSP_Motor_Init();
 ///
 float BSP_Motor_GetVelocityOfLeft();
 float BSP_Motor_GetVelocityOfRight();
-BSP_MOTOR_SenseOfRotation BSP_Motor_GetSenseOfRotationLeft();
-BSP_MOTOR_SenseOfRotation BSP_Motor_GetSenseOfRotationRight();
+//BSP_MOTOR_SenseOfRotation BSP_Motor_GetSenseOfRotationLeft();
+//BSP_MOTOR_SenseOfRotation BSP_Motor_GetSenseOfRotationRight();
 
 ///
 ///控制

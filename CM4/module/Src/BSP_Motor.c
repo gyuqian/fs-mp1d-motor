@@ -20,16 +20,16 @@ void BSP_Motor_Init()
 	//HAL_TIM_Base_Start_IT(&htim1);
 }
 
-float BSP_Motor_GetVelocity(int hMotor)
+static float BSP_Motor_GetVelocity(int hMotor)
 {
 	switch(hMotor)
 	{
 	case MOTOR_LEFT:
-		return (Encoder_Left/4.0/10.0);
+		return (Encoder_Left/4.0/13.0/10.0)*60.0*100.0;
 		break;
 
 	case MOTOR_RIGHT:
-		return (Encoder_Right/4.0/10.0);
+		return (Encoder_Right/4.0/13.0/10.0)*60.0*100.0;
 		break;
 
 	default:
@@ -89,8 +89,8 @@ BSP_MOTOR_SenseOfRotation BSP_Motor_GetSenseOfRotationRight()
 
 static void BSP_MOTOR_SetVelocity(long int left_velocity,long int right_velocity)
 {
-	Target_Left=left_velocity;
-	Target_Right=right_velocity;
+	Target_Left=(long int)(left_velocity/60.0/100.0*4.0*13.0*10.0);
+	Target_Right=(long int)(right_velocity/60.0/100.0*4.0*13.0*10.0);
 }
 
 void BSP_Motor_STOP()
