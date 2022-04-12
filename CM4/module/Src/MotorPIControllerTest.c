@@ -10,13 +10,26 @@
 #include "control.h"
 
 #if MOTOR_PID_CONTROLOR_TEST
+int temp_count=0;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+	if(temp_count<10)
+	{
+		temp_count++;
+	}
+	else
+	{
+		temp_count=0;
+		HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_12);
+	}
+	/*
 	HAL_Delay(10);
 
-	Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();  ////为了保证M法测速的时间基准，首先读取编码器数据
+	*/
+	Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();
 	__MOTOR_CLEAR_RIGHT_ENCODER();
+
 	Encoder_Left=__MOTOR_READ_LEFT_ENCODER();    //
 	__MOTOR_CLEAR_LEFT_ENCODER();
 

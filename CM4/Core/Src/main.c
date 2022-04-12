@@ -117,11 +117,12 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   BSP_Motor_Init();
+  HAL_TIM_Base_Start_IT(&htim1);
   HAL_Delay(1000);
-  //BSP_Motor_GO_AHEAD(1);
+  BSP_Motor_GO_AHEAD(-575);
   //GO_BACK();
-  Target_Left=5;
-  Target_Right=5;
+  //Target_Left=50;
+  //Target_Right=50;
   //Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();
 
 #if LPTIM_ENCODER_MOD_TEST
@@ -213,7 +214,9 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI
+                              |RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.HSIDivValue = RCC_HSI_DIV1;
@@ -221,14 +224,14 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   RCC_OscInitStruct.PLL2.PLLState = RCC_PLL_NONE;
   RCC_OscInitStruct.PLL3.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL3.PLLSource = RCC_PLL3SOURCE_HSI;
-  RCC_OscInitStruct.PLL3.PLLM = 4;
-  RCC_OscInitStruct.PLL3.PLLN = 26;
-  RCC_OscInitStruct.PLL3.PLLP = 2;
+  RCC_OscInitStruct.PLL3.PLLSource = RCC_PLL3SOURCE_HSE;
+  RCC_OscInitStruct.PLL3.PLLM = 2;
+  RCC_OscInitStruct.PLL3.PLLN = 52;
+  RCC_OscInitStruct.PLL3.PLLP = 3;
   RCC_OscInitStruct.PLL3.PLLQ = 2;
   RCC_OscInitStruct.PLL3.PLLR = 2;
   RCC_OscInitStruct.PLL3.PLLRGE = RCC_PLL3IFRANGE_1;
-  RCC_OscInitStruct.PLL3.PLLFRACV = 1024;
+  RCC_OscInitStruct.PLL3.PLLFRACV = 2048;
   RCC_OscInitStruct.PLL3.PLLMODE = RCC_PLL_FRACTIONAL;
   RCC_OscInitStruct.PLL4.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -255,6 +258,9 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  /** Set the HSE division factor for RTC clock
+  */
+  __HAL_RCC_RTC_HSEDIV(1);
 }
 
 /* USER CODE BEGIN 4 */
