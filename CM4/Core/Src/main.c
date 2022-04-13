@@ -117,9 +117,12 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   BSP_Motor_Init();
+#if MOTOR_PID_CONTROLOR_TEST
   HAL_TIM_Base_Start_IT(&htim1);
+#endif
   HAL_Delay(1000);
   BSP_Motor_GO_AHEAD(-575);
+
   //GO_BACK();
   //Target_Left=50;
   //Target_Right=50;

@@ -28,6 +28,7 @@
 "./Drivers/STM32MP1xx_HAL_Driver/stm32mp1xx_hal_tim_ex.o"
 "./Drivers/STM32MP1xx_HAL_Driver/stm32mp1xx_hal_uart.o"
 "./Drivers/STM32MP1xx_HAL_Driver/stm32mp1xx_hal_uart_ex.o"
+"./module/Src/BSP_Motor.o"
 "./module/Src/GPIO_bsp.o"
 "./module/Src/IOI2C.o"
 "./module/Src/MPU6050.o"
