@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
+# Toolchain: GNU Tools for STM32 (10.3-2021.10)
 ################################################################################
 
 -include ../makefile.init
@@ -9,7 +9,9 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include module/motor/Src/subdir.mk
 -include module/Src/subdir.mk
+-include module/DataScope/Src/subdir.mk
 -include Drivers/STM32MP1xx_HAL_Driver/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
@@ -45,14 +47,14 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 EXECUTABLES += \
 MP1D_CM4.elf \
 
+MAP_FILES += \
+MP1D_CM4.map \
+
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
 MP1D_CM4.list \
-
-OBJCOPY_BIN += \
-MP1D_CM4.bin \
 
 
 # All Target
@@ -62,7 +64,7 @@ all: main-build
 main-build: MP1D_CM4.elf secondary-outputs
 
 # Tool invocations
-MP1D_CM4.elf: $(OBJS) $(USER_OBJS) C:\Users\caoyuqian\STM32CubeIDE\workspace_1.8.0\MP1D\CM4\STM32MP157AACX_RAM.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+MP1D_CM4.elf MP1D_CM4.map: $(OBJS) $(USER_OBJS) C:\Users\caoyuqian\STM32CubeIDE\workspace_1.8.0\MP1D\CM4\STM32MP157AACX_RAM.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-gcc -o "MP1D_CM4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\caoyuqian\STM32CubeIDE\workspace_1.8.0\MP1D\CM4\STM32MP157AACX_RAM.ld" --specs=nosys.specs -Wl,-Map="MP1D_CM4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
@@ -77,17 +79,12 @@ MP1D_CM4.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-MP1D_CM4.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "MP1D_CM4.bin"
-	@echo 'Finished building: $@'
-	@echo ' '
-
 # Other Targets
 clean:
-	-$(RM) MP1D_CM4.bin MP1D_CM4.elf MP1D_CM4.list default.size.stdout
+	-$(RM) MP1D_CM4.elf MP1D_CM4.list MP1D_CM4.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

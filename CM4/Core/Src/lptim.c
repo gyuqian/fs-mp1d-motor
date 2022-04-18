@@ -102,6 +102,7 @@ void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* lptimHandle)
   /* USER CODE END LPTIM1_MspInit 0 */
   if(IS_ENGINEERING_BOOT_MODE())
   {
+
   /** Initializes the peripherals clock
   */
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPTIM1;
@@ -146,6 +147,7 @@ void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef* lptimHandle)
 
   if(IS_ENGINEERING_BOOT_MODE())
   {
+
   /** Initializes the peripherals clock
   */
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_LPTIM23;

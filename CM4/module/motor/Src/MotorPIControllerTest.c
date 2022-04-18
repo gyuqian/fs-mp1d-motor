@@ -38,6 +38,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	Xianfu_Pwm(8200);                          //===PWM限幅
 	Set_Pwm(Motor_Left,Motor_Right);
 }
+#endif
 
 void MOTOR_STOP()
 {
@@ -77,4 +78,3 @@ void MOTOR_Init()
 	//HAL_TIM_Base_Start_IT(&htim1);
 }
 
-#endif

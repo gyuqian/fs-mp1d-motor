@@ -82,6 +82,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
   /* USER CODE END UART5_MspInit 0 */
   if(IS_ENGINEERING_BOOT_MODE())
   {
+
   /** Initializes the peripherals clock
   */
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_UART35;

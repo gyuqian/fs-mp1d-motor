@@ -20,6 +20,7 @@
 #include "main.h"
 #include "ipcc.h"
 #include "lptim.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -32,6 +33,9 @@
 #if PID_CONTROLER_DEBUG_MODE
 #include "MotorPIControllerTest.h"
 #include "control.h"
+#endif
+#if USE_DATASCOPE
+#include "show.h"
 #endif
 
 /* USER CODE END Includes */
@@ -121,12 +125,15 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim1);
 #endif
   HAL_Delay(1000);
-  BSP_Motor_GO_AHEAD(-575);
+
+#if MOTOR_PID_CONTROLOR_TEST
+  //BSP_Motor_GO_AHEAD(-575);
 
   //GO_BACK();
-  //Target_Left=50;
-  //Target_Right=50;
+  Target_Left=50;
+  Target_Right=50;
   //Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();
+#endif
 
 #if LPTIM_ENCODER_MOD_TEST
 		__HAL_TIM_SET_COUNTER(MOTOR_LEFT_ENCODER_TIM,100);
@@ -201,6 +208,10 @@ int main(void)
 
 		HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_12);
 #endif
+#if USE_DATASCOPE
+		DataScope();
+		HAL_Delay(50);
+#endif
   }
   /* USER CODE END 3 */
 }
@@ -241,6 +252,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** RCC Clock Config
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_ACLK
@@ -261,6 +273,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Set the HSE division factor for RTC clock
   */
   __HAL_RCC_RTC_HSEDIV(1);
@@ -301,4 +314,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
