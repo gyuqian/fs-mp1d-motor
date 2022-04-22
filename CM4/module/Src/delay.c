@@ -6,7 +6,9 @@
  */
 #include "delay.h"
 
-/*void delay_us(__IO uint32_t Delay)
+const uint32_t CPU_FREQUENCY_MHZ = 209;
+
+void delay_us(__IO uint32_t Delay)
 {
 	int last;
 	int curr;
@@ -16,35 +18,30 @@
 
 	while(Delay != 0)
 	{
-		temp=Delay>900?900:Delay;
-		last=SysTick->VAL;
-		curr=last-CPU_FREQUENCY_MHZ*temp;
+		temp = Delay>900?900:Delay;
+		last = SysTick->VAL;
+		curr = last-CPU_FREQUENCY_MHZ*temp;
 
-		if (curr>=0)
+		if (curr >= 0)
 		{
 			do
 			{
-				val=SysTick->VAL;
+				val = SysTick->VAL;
 			}
 			while((val<last)&&(val>=curr));
 
 		}
 		else
 		{
-			curr+=CPU_FREQUENCY_MHZ*1000;
+			curr += CPU_FREQUENCY_MHZ*1000;
 			do
 			{
-				val=SysTick->VAL;
+				val = SysTick->VAL;
 			}
-			while((val>=last)||(val<curr));
-
+			while((val >= last)||(val < curr));
 		}
-		Delay-=temp;
+		Delay -= temp;
 	}
-
-}*/
-void delay_us(__IO uint32_t Delay)
-{
 
 }
 

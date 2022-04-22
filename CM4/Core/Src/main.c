@@ -26,10 +26,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "tim.h"
+//#include "tim.h"
 
 #include "Debug_Flags.h"
 #include "BSP_Motor.h"
+#include "MPU6050.h"
 #if PID_CONTROLER_DEBUG_MODE
 #include "MotorPIControllerTest.h"
 #include "control.h"
@@ -121,6 +122,12 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   BSP_Motor_Init();
+
+  HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6,GPIO_PIN_SET);
+  MPU6050_initialize();
+  DMP_Init();
+  HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6,GPIO_PIN_RESET);
+
 #if MOTOR_PID_CONTROLOR_TEST
   HAL_TIM_Base_Start_IT(&htim1);
 #endif
@@ -130,8 +137,8 @@ int main(void)
   //BSP_Motor_GO_AHEAD(-575);
 
   //GO_BACK();
-  Target_Left=50;
-  Target_Right=50;
+  Target_Left=-3;
+  Target_Right=-3;
   //Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();
 #endif
 
@@ -211,6 +218,11 @@ int main(void)
 #if USE_DATASCOPE
 		DataScope();
 		HAL_Delay(50);
+#endif
+#if !(MOTOR_PID_CONTROLOR_TEST)
+		HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_12);
+		HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_6);
+		HAL_Delay(100);
 #endif
   }
   /* USER CODE END 3 */

@@ -11,6 +11,7 @@ RM := rm -rf
 -include sources.mk
 -include module/motor/Src/subdir.mk
 -include module/Src/subdir.mk
+-include module/GPIO/Src/subdir.mk
 -include module/DataScope/Src/subdir.mk
 -include Drivers/STM32MP1xx_HAL_Driver/subdir.mk
 -include Core/Startup/subdir.mk

@@ -22,5 +22,4 @@ void STOP();
 
 #endif
 
-
 #endif /* INC_MOTORPICONTROLLERTEST_H_ */

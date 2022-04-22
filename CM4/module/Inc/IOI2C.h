@@ -23,8 +23,8 @@
 
 
 //IO方向设置
-#define SDA_IN()  {GPIOB->MODER&=~(3<<(11*2));GPIOB->MODER|=0<<11*2;}	//PB11输入模式
-#define SDA_OUT() {GPIOB->MODER&=~(3<<(11*2));GPIOB->MODER|=1<<11*2;} 	//PB11输出模式
+#define SDA_IN()  {GPIOG->MODER&=~(3<<(2*2));GPIOG->MODER|=0<<2*2;}	//PB11输入模式
+#define SDA_OUT() {GPIOG->MODER&=~(3<<(2*2));GPIOG->MODER|=1<<2*2;} 	//PB11输出模式
 
 #ifdef USE_HARDWARE_I2C
 
@@ -34,10 +34,14 @@
 //#define IIC_SDA    PBout(11) //SDA
 //#define READ_SDA   PBin(11)  //输入SDA
 
-#define IIC_SCL(n) HAL_GPIO_WritePin(GPIOB,GPIO_PIN_10,n)
-#define IIC_SDA(n) HAL_GPIO_WritePin(GPIOB,GPIO_PIN_11,n)
+#define IIC_SCL(n) HAL_GPIO_WritePin(GPIOG,GPIO_PIN_1,n)
+#define IIC_SCL_SET() HAL_GPIO_WritePin(GPIOG,GPIO_PIN_1,GPIO_PIN_SET)
+#define IIC_SCL_CLR() HAL_GPIO_WritePin(GPIOG,GPIO_PIN_1,GPIO_PIN_RESET)
+#define IIC_SDA(n) HAL_GPIO_WritePin(GPIOG,GPIO_PIN_2,n)
+#define IIC_SDA_SET() HAL_GPIO_WritePin(GPIOG,GPIO_PIN_2,GPIO_PIN_SET)
+#define IIC_SDA_CLR() HAL_GPIO_WritePin(GPIOG,GPIO_PIN_2,GPIO_PIN_RESET)
 
-#define READ_SDA HAL_GPIO_ReadPin(GPIOB,11)
+#define READ_SDA() HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_2)
 
 //IIC所有操作函数
 void IIC_Init(void);                //初始化IIC的IO口

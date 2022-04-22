@@ -41,18 +41,18 @@ void IIC_Init(void)
 int IIC_Start(void)
 {
 	SDA_OUT();     //sda线输出
-	IIC_SDA(1);
-	if(!READ_SDA){
+	IIC_SDA_SET();
+	if(!READ_SDA()){
 		return 0;
 	}
-	IIC_SCL(1);
+	IIC_SCL_SET();
 	HAL_Delay(1);
- 	IIC_SDA(0);//START:when CLK is high,DATA change form high to low
-	if(READ_SDA){
+ 	IIC_SDA_CLR();//START:when CLK is high,DATA change form high to low
+	if(READ_SDA()){
 		return 0;
 	}
 	HAL_Delay(1);
-	IIC_SCL(0);//钳住I2C总线，准备发送或接收数据
+	IIC_SCL_CLR();//钳住I2C总线，准备发送或接收数据
 	return 1;
 }
 
@@ -63,11 +63,11 @@ int IIC_Start(void)
 void IIC_Stop(void)
 {
 	SDA_OUT();//sda线输出
-	IIC_SCL(0);
-	IIC_SDA(0);//STOP:when CLK is high DATA change form low to high
+	IIC_SCL_CLR();
+	IIC_SDA_CLR();//STOP:when CLK is high DATA change form low to high
  	HAL_Delay(1);
-	IIC_SCL(1);
-	IIC_SDA(1);//发送I2C总线结束信号
+	IIC_SCL_SET();
+	IIC_SDA_SET();//发送I2C总线结束信号
 	HAL_Delay(1);
 }
 
@@ -81,11 +81,11 @@ int IIC_Wait_Ack(void)
 {
 	uint8_t ucErrTime=0;
 	SDA_IN();      //SDA设置为输入
-	IIC_SDA(1);
+	IIC_SDA_SET();
 	HAL_Delay(1);
-	IIC_SCL(1);
+	IIC_SCL_SET();
 	HAL_Delay(1);
-	while(READ_SDA)
+	while(READ_SDA())
 	{
 		ucErrTime++;
 		if(ucErrTime>50)
@@ -95,7 +95,7 @@ int IIC_Wait_Ack(void)
 		}
 	  HAL_Delay(1);
 	}
-	IIC_SCL(0);//时钟输出0
+	IIC_SCL_CLR();//时钟输出0
 	return 1;
 }
 
@@ -105,13 +105,13 @@ int IIC_Wait_Ack(void)
 *******************************************************************************/
 void IIC_Ack(void)
 {
-	IIC_SCL(0);
+	IIC_SCL_CLR();
 	SDA_OUT();
-	IIC_SDA(0);
+	IIC_SDA_CLR();
 	HAL_Delay(1);
-	IIC_SCL(1);
+	IIC_SCL_SET();
 	HAL_Delay(1);
-	IIC_SCL(0);
+	IIC_SCL_CLR();
 }
 
 /**************************实现函数********************************************
@@ -120,13 +120,13 @@ void IIC_Ack(void)
 *******************************************************************************/
 void IIC_NAck(void)
 {
-	IIC_SCL(0);
+	IIC_SCL_CLR();
 	SDA_OUT();
-	IIC_SDA(1);
+	IIC_SDA_SET();
 	HAL_Delay(1);
-	IIC_SCL(1);
+	IIC_SCL_SET();
 	HAL_Delay(1);
-	IIC_SCL(0);
+	IIC_SCL_CLR();
 }
 /**************************实现函数********************************************
 *函数原型:		void IIC_Send_Byte(uint8_t txd)
@@ -136,15 +136,23 @@ void IIC_Send_Byte(uint8_t txd)
 {
     uint8_t t;
 	SDA_OUT();
-    IIC_SCL(0);//拉低时钟开始数据传输
+    IIC_SCL_CLR();//拉低时钟开始数据传输
     for(t=0;t<8;t++)
     {
-        IIC_SDA((txd&0x80)>>7);
+    	if((txd&0x80)>>7)
+    	{
+    		IIC_SDA_SET();
+    	}
+    	else
+    	{
+    		IIC_SDA_CLR();
+    	}
+        //IIC_SDA((txd&0x80)>>7);
         txd<<=1;
 		HAL_Delay(1);
-		IIC_SCL(1);
+		IIC_SCL_SET();
 		HAL_Delay(1);
-		IIC_SCL(0);
+		IIC_SCL_CLR();
 		HAL_Delay(1);
     }
 }
@@ -216,11 +224,11 @@ uint8_t IIC_Read_Byte(unsigned char ack)
 	SDA_IN();//SDA设置为输入
     for(i=0;i<8;i++ )
 	{
-        IIC_SCL(0);
+        IIC_SCL_CLR();
         HAL_Delay(2);
-		IIC_SCL(1);
+		IIC_SCL_SET();
         receive<<=1;
-        if(READ_SDA)receive++;
+        if(READ_SDA())receive++;
 		HAL_Delay(2);
     }
     if (ack)

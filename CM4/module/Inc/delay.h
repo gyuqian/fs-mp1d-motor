@@ -13,8 +13,6 @@ extern "C" {
 #endif
 #include "GPIO_bsp.h"
 
-#define CPU_FREQUENCY_MHZ 72
-
 void delay_us(__IO uint32_t Delay);
 void delay_ms(__IO uint32_t Delay);
 
