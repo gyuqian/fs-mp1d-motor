@@ -9,6 +9,7 @@
 #define INC_BSP_MOTOR_H_
 
 #include "Debug_Flags.h"
+#include "control.h"
 
 typedef enum
 {

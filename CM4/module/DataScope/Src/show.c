@@ -15,10 +15,10 @@ void DataScope(void)
 	int Send_Count;
 	//int i;
 
-	DataScope_Get_Channel_Data( Target_Left, 1 );
-	DataScope_Get_Channel_Data( Encoder_Left, 2 );
-	DataScope_Get_Channel_Data( Target_Right, 3 );
-	DataScope_Get_Channel_Data( Encoder_Right , 4 );
+	DataScope_Get_Channel_Data(Target_Left, 1);
+	DataScope_Get_Channel_Data(Encoder_Left, 2);
+	DataScope_Get_Channel_Data(Target_Right, 3);
+	DataScope_Get_Channel_Data(Encoder_Right, 4);
 //	DataScope_Get_Channel_Data(0, 5 );
 //	DataScope_Get_Channel_Data(0 , 6 );
 //	DataScope_Get_Channel_Data(0, 7 );

@@ -116,12 +116,39 @@
 		};
 	};
 
+	m4_usart3_pins_mx: m4_usart3_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('D', 8, RSVD)>, /* USART3_TX */
+					 <STM32_PINMUX('D', 9, RSVD)>; /* USART3_RX */
+		};
+	};
+
 	/* USER CODE BEGIN pinctrl */
 	/* USER CODE END pinctrl */
 };
 
 &pinctrl_z {
 	u-boot,dm-pre-reloc;
+
+	usart1_pins_z_mx: usart1_mx-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('Z', 6, AF7)>; /* USART1_RX */
+			bias-disable;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('Z', 7, AF7)>; /* USART1_TX */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+	};
+
+	usart1_sleep_pins_z_mx: usart1_sleep_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('Z', 6, ANALOG)>, /* USART1_RX */
+					 <STM32_PINMUX('Z', 7, ANALOG)>; /* USART1_TX */
+		};
+	};
 
 	/* USER CODE BEGIN pinctrl_z */
 	/* USER CODE END pinctrl_z */
@@ -266,6 +293,15 @@
 	/* USER CODE END m4_uart5 */
 };
 
+&m4_usart3{
+	pinctrl-names = "default";
+	pinctrl-0 = <&m4_usart3_pins_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN m4_usart3 */
+	/* USER CODE END m4_usart3 */
+};
+
 &mdma1{
 	status = "okay";
 
@@ -293,6 +329,16 @@
 
 	/* USER CODE BEGIN tamp */
 	/* USER CODE END tamp */
+};
+
+&usart1{
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&usart1_pins_z_mx>;
+	pinctrl-1 = <&usart1_sleep_pins_z_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN usart1 */
+	/* USER CODE END usart1 */
 };
 
 &usbh_ehci{

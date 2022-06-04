@@ -81,6 +81,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	//uint32_t i=0;
 	//int Encoder_Right_Last=0;
 	//int Encoder_Right_temp=0;
 
@@ -113,19 +114,20 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_LPTIM2_Init();
-  MX_UART5_Init();
   MX_LPTIM1_Init();
   MX_TIM16_Init();
   MX_TIM17_Init();
   MX_TIM13_Init();
   MX_TIM14_Init();
   MX_TIM1_Init();
+  MX_USART3_UART_Init();
+  MX_UART5_Init();
   /* USER CODE BEGIN 2 */
   BSP_Motor_Init();
 
   HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6,GPIO_PIN_SET);
-  MPU6050_initialize();
-  DMP_Init();
+  //MPU6050_initialize();
+  //DMP_Init();
   HAL_GPIO_WritePin(GPIOH, GPIO_PIN_6,GPIO_PIN_RESET);
 
 #if MOTOR_PID_CONTROLOR_TEST
@@ -137,8 +139,8 @@ int main(void)
   //BSP_Motor_GO_AHEAD(-575);
 
   //GO_BACK();
-  Target_Left=-3;
-  Target_Right=-3;
+  Target_Left=-0;
+  Target_Right=-0;
   //Encoder_Right=__MOTOR_READ_RIGHT_ENCODER();
 #endif
 
@@ -223,6 +225,30 @@ int main(void)
 		HAL_GPIO_TogglePin(GPIOF, GPIO_PIN_12);
 		HAL_GPIO_TogglePin(GPIOH, GPIO_PIN_6);
 		HAL_Delay(100);
+
+		//__HAL_TIM_SET_COMPARE(&htim13,TIM_CHANNEL_1,4199);
+		//__HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,4199);
+		//__HAL_TIM_SET_COMPARE(&htim16,TIM_CHANNEL_1,4199);
+		//__HAL_TIM_SET_COMPARE(&htim17,TIM_CHANNEL_1,4199);
+#else
+		/*if(i==40)
+		{
+			i=0;
+			if(Target_Left<50&&Target_Right<50)
+			{
+				Target_Left+=2;
+				Target_Right+=2;
+			}
+			else
+			{
+				Target_Left=50;
+				Target_Right=50;
+			}
+		}
+		else
+		{
+			i++;
+		}*/
 #endif
   }
   /* USER CODE END 3 */

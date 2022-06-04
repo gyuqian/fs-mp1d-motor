@@ -42,34 +42,34 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 void MOTOR_STOP()
 {
-	Target_Left=0;
-	Target_Right=0;
+	Target_Left = 0;
+	Target_Right = 0;
 }
 void GO_AHEAD(long int velocity)
 {
-	Target_Left=velocity;
-	Target_Right=velocity;
+	Target_Left = velocity;
+	Target_Right = velocity;
 }
 void GO_BACK(long int velocity)
 {
-	Target_Left=-velocity;
-	Target_Right=-velocity;
+	Target_Left = -velocity;
+	Target_Right = -velocity;
 }
-void TURN_LEFT(float velocity,float angle)
+void TURN_LEFT(float velocity, float angle)
 {
-	Target_Left=(long int)((velocity-angle));
-	Target_Right=(long int)((velocity+angle));
+	Target_Left = (long int) ((velocity - angle));
+	Target_Right = (long int) ((velocity + angle));
 }
-void TURN_RIGHT(float velocity,float angle)
+void TURN_RIGHT(float velocity, float angle)
 {
-	Target_Left=(long int)((velocity+angle));
-	Target_Right=(long int)((velocity-angle));
+	Target_Left = (long int) ((velocity + angle));
+	Target_Right = (long int) ((velocity - angle));
 }
 
 void MOTOR_Init()
 {
-	HAL_LPTIM_Encoder_Start(&hlptim1,0xFFFF);
-	HAL_LPTIM_Encoder_Start(&hlptim2,0xFFFF);
+	HAL_LPTIM_Encoder_Start(&hlptim1, 0xFFFF);
+	HAL_LPTIM_Encoder_Start(&hlptim2, 0xFFFF);
 	HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1);
 	HAL_TIM_PWM_Start(&htim16, TIM_CHANNEL_1);

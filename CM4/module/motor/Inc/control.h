@@ -8,14 +8,9 @@
 #ifndef INC_CONTROL_H_
 #define INC_CONTROL_H_
 
-#include "GPIO_bsp.h"
-#include "MPU6050.h"
+#include "stm32mp1xx_hal.h"
 
 //extern MotorControler MotorControler1;
-#define PI 3.14159265
-#define ZHONGZHI 0
-#define DIFFERENCE 100
-
 extern uint8_t delay_50;
 extern uint8_t delay_flag;
 

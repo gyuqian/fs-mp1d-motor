@@ -270,7 +270,10 @@ void DMP_Init(void)
    i2cRead(0x68,0x75,1,temp);
 
 	 //printf("mpu_set_sensor complete ......\r\n");
-	if(temp[0]!=0x68)NVIC_SystemReset();
+	if(temp[0]!=0x68)
+	{
+		NVIC_SystemReset();
+	}
 	if(!mpu_init())
   {
 	  if(!mpu_set_sensors(INV_XYZ_GYRO | INV_XYZ_ACCEL))

@@ -15,8 +15,6 @@
 #include "usart.h"
 #include "gpio.h"
 #include "tim.h"
-//#include "stm32mp1xx_hal_tim.h"
-//#include "MPU6050.h"
 
 #include "dmpKey.h"
 #include "dmpmap.h"
